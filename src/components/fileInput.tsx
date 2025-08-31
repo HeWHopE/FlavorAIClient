@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useState } from "react";
 
 interface FileInputProps {
@@ -23,10 +24,12 @@ const FileInput: React.FC<FileInputProps> = ({
     <div className="flex flex-col items-center gap-2">
       {/* Preview */}
       {preview ? (
-        <img
+        <Image
           src={preview}
           alt="Preview"
           className="w-32 h-32 object-cover rounded-lg shadow-md border"
+          width={200}
+          height={200}
         />
       ) : (
         <div className="w-32 h-32 flex items-center justify-center bg-gray-100 rounded-lg border-dashed border-2 border-gray-300 text-gray-400">

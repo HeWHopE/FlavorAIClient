@@ -1,6 +1,7 @@
 import { RecipeDto, UpdateRecipeDto } from "@/models/recipe";
 import { updateRecipeValidationSchema } from "@/validationSchemas/updateRecipeValidationSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -246,7 +247,9 @@ const UpdateRecipeModal: React.FC<UpdateRecipeModalProps> = ({
                         {/* Preview existing image if no new file */}
                         {!value && recipeData.imageUrl && (
                           <div className="mb-2">
-                            <img
+                            <Image
+                              width={200}
+                              height={200}
                               src={
                                 recipeData.imageUrl
                                   ? `http://localhost:3001${recipeData.imageUrl}`
@@ -260,10 +263,12 @@ const UpdateRecipeModal: React.FC<UpdateRecipeModalProps> = ({
                         {/* Preview new file */}
                         {value && value instanceof File && (
                           <div className="mb-2">
-                            <img
+                            <Image
                               src={URL.createObjectURL(value)}
                               alt="Preview"
                               className="w-32 h-32 object-cover rounded-md"
+                              width={200}
+                              height={200}
                             />
                           </div>
                         )}

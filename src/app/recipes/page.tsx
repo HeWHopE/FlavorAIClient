@@ -12,9 +12,7 @@ import { useEffect, useState } from "react";
 
 function DashboardContent() {
   const [recipes, setRecipes] = useState<RecipeDto[]>([]);
-
   const user = useAppSelector((state) => state.user.data);
-
   useEffect(() => {
     const FetchRecipes = async () => {
       if (user?.id) {
@@ -28,8 +26,9 @@ function DashboardContent() {
     if (!user) return;
 
     FetchRecipes();
-  }, [user?.id]);
+  }, [user?.id, user]);
   const router = useRouter();
+  if (!user) return;
 
   const handleLogout = () => {
     // localStorage.removeItem("access_token");
@@ -65,7 +64,7 @@ function DashboardContent() {
           <RecipeList
             recipes={recipes}
             setRecipes={setRecipes}
-            currentUserId={user?.id}
+            currentUserId={user.id}
           />
         </div>
       </main>
