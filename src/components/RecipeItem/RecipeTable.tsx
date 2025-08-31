@@ -58,7 +58,7 @@ const RecipeTable: React.FC<RecipeTableProps> = ({
             <div className="h-48 bg-gray-200 flex items-center justify-center">
               {recipe.imageUrl ? (
                 <img
-                  src={`http://localhost:3001${recipe.imageUrl}`}
+                  src={`https://falvoraiback.onrender.com${recipe.imageUrl}`}
                   alt={recipe.name}
                   className="object-cover w-full h-full"
                 />

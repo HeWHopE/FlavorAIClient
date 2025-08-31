@@ -252,7 +252,7 @@ const UpdateRecipeModal: React.FC<UpdateRecipeModalProps> = ({
                               height={200}
                               src={
                                 recipeData.imageUrl
-                                  ? `http://localhost:3001${recipeData.imageUrl}`
+                                  ? `https://falvoraiback.onrender.com${recipeData.imageUrl}`
                                   : "/placeholder.png"
                               }
                               alt="Current"
