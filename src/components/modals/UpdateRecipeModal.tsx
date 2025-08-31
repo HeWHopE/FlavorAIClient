@@ -30,6 +30,7 @@ const UpdateRecipeModal: React.FC<UpdateRecipeModalProps> = ({
     setValue,
     formState: { errors },
   } = useForm<UpdateRecipeFormValues>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: yupResolver(updateRecipeValidationSchema) as any, // <-- cast to any
 
     defaultValues: {

@@ -1,6 +1,5 @@
 import { CreateRecipeDto, RecipeDto, UpdateRecipeDto } from "@/models/recipe";
 import { API_URL, LOCAL_STORAGE_TOKEN } from "../../api";
-import { GiConsoleController } from "react-icons/gi";
 
 // --------------------
 // Recipes
@@ -60,6 +59,7 @@ export const updateRecipe = async (
       if (key === "ingredients" && Array.isArray(value)) {
         formData.append(key, JSON.stringify(value));
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         formData.append(key, value as any);
       }
     }

@@ -11,16 +11,9 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function DashboardContent() {
-  const router = useRouter();
-  const user = useAppSelector((state) => state.user.data);
-  if (!user) return;
   const [recipes, setRecipes] = useState<RecipeDto[]>([]);
-  console.log(recipes);
-  const handleLogout = () => {
-    // localStorage.removeItem("access_token");
-    // localStorage.removeItem("refresh_token");
-    router.push("/auth");
-  };
+
+  const user = useAppSelector((state) => state.user.data);
 
   useEffect(() => {
     const FetchRecipes = async () => {
@@ -32,9 +25,17 @@ function DashboardContent() {
         }
       }
     };
+    if (!user) return;
 
     FetchRecipes();
   }, [user?.id]);
+  const router = useRouter();
+
+  const handleLogout = () => {
+    // localStorage.removeItem("access_token");
+    // localStorage.removeItem("refresh_token");
+    router.push("/auth");
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">

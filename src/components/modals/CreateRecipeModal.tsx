@@ -21,8 +21,6 @@ const CreateRecipeModal: React.FC<CreateRecipeModalProps> = ({
     handleSubmit,
     control,
     formState: { errors },
-    setValue,
-    getValues,
   } = useForm({
     resolver: yupResolver(recipeValidationSchema),
   });
