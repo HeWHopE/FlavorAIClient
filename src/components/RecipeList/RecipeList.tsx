@@ -36,12 +36,32 @@ const RecipeList: React.FC<RecipeListProps> = ({
   const [filteredRecipes, setFilteredRecipes] = useState<RecipeDto[]>(recipes);
   const [searchError, setSearchError] = useState<string | null>(null);
   const [isSearchLoading, setIsSearchLoading] = useState(false);
+  const [showMyRecipesOnly, setShowMyRecipesOnly] = useState(false);
 
   useEffect(() => {
     if (!searchQuery) {
       setFilteredRecipes(recipes);
     }
   }, [recipes, searchQuery]);
+
+  useEffect(() => {
+    let filtered = recipes;
+
+    if (searchQuery) {
+      const queryLower = searchQuery.toLowerCase();
+      filtered = filtered.filter(
+        (r) =>
+          r.name.toLowerCase().includes(queryLower) ||
+          (r.description && r.description.toLowerCase().includes(queryLower))
+      );
+    }
+
+    if (showMyRecipesOnly) {
+      filtered = filtered.filter((r) => r.userId === currentUserId);
+    }
+
+    setFilteredRecipes(filtered);
+  }, [recipes, searchQuery, showMyRecipesOnly, currentUserId]);
 
   const toggleCreateModal = () => setIsCreateOpen((prev) => !prev);
   const toggleUpdateModal = () => setIsUpdateOpen((prev) => !prev);
@@ -146,7 +166,12 @@ const RecipeList: React.FC<RecipeListProps> = ({
     setIsSearchLoading(true);
     setTimeout(async () => {
       if (!query) {
-        setFilteredRecipes(recipes);
+        // Apply checkbox filter even when search is empty
+        const filtered = showMyRecipesOnly
+          ? recipes.filter((r) => r.userId === currentUserId)
+          : recipes;
+
+        setFilteredRecipes(filtered);
         setSearchError(null);
         setIsSearchLoading(false);
         return;
@@ -154,7 +179,13 @@ const RecipeList: React.FC<RecipeListProps> = ({
 
       try {
         const results = await searchRecipes(query);
-        setFilteredRecipes(results);
+
+        // Filter by "my recipes" checkbox
+        const filtered = showMyRecipesOnly
+          ? results.filter((r) => r.userId === currentUserId)
+          : results;
+
+        setFilteredRecipes(filtered);
         setSearchError(null);
         setIsSearchLoading(false);
       } catch (error) {
@@ -206,7 +237,15 @@ const RecipeList: React.FC<RecipeListProps> = ({
             )}
           </div>
         </div>
-
+        <label className="ml-4 flex items-center gap-2 text-sm text-gray-700">
+          <input
+            type="checkbox"
+            checked={showMyRecipesOnly}
+            onChange={(e) => setShowMyRecipesOnly(e.target.checked)}
+            className="w-4 h-4"
+          />
+          Show only my recipes
+        </label>
         <button
           onClick={toggleCreateModal}
           className="ml-0 sm:ml-4 mt-2 sm:mt-0 px-3 py-2 sm:px-4 sm:py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 text-sm sm:text-base"

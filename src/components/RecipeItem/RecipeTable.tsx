@@ -105,7 +105,7 @@ const RecipeTable: React.FC<RecipeTableProps> = ({
                 <>
                   <button
                     onClick={() => toggleExpand(recipe.id)}
-                    className="mt-2 text-indigo-600 text-sm hover:underline self-start"
+                    className="mt-2 text-indigo-600 text-sm hover:underline items-center"
                   >
                     {expandedIds.includes(recipe.id)
                       ? "Hide ingredients"
@@ -121,9 +121,27 @@ const RecipeTable: React.FC<RecipeTableProps> = ({
                 </>
               )}
 
+              {recipe.instructions && (
+                <>
+                  <button
+                    onClick={() => toggleExpand(recipe.id + 10000)} // different id to separate from ingredients
+                    className="mt-2 text-indigo-600 text-sm hover:underline items-center"
+                  >
+                    {expandedIds.includes(recipe.id + 10000)
+                      ? "Hide instructions"
+                      : "Show instructions"}
+                  </button>
+                  {expandedIds.includes(recipe.id + 10000) && (
+                    <p className="mt-2 text-gray-700 text-sm">
+                      {recipe.instructions}
+                    </p>
+                  )}
+                </>
+              )}
+
               {/* Actions for owner */}
               {recipe.userId === currentUserId && (
-                <div className="mt-auto flex gap-2 pt-2">
+                <div className="mt-auto flex gap-2 pt-2 justify-between px-10">
                   <button
                     onClick={() => handleEditClick(recipe)}
                     className="text-indigo-600 hover:text-indigo-800 flex items-center gap-1"
