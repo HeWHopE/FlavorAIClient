@@ -1,9 +1,11 @@
 "use client";
 
-import { getTrainsByUserId } from "@/api/train-api";
+import { getAllRecipes } from "@/api/recipe-api";
 import PrivateRoute from "@/components/PrivateRoute";
-import TrainList from "@/components/trainList/trainList";
-import { TrainDto } from "@/models/train";
+import RecipeList from "@/components/RecipeList/RecipeList";
+
+import { RecipeDto } from "@/models/recipe";
+
 import { useAppSelector } from "@/store/hooks";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -11,27 +13,27 @@ import { useEffect, useState } from "react";
 function DashboardContent() {
   const router = useRouter();
   const user = useAppSelector((state) => state.user.data);
-  const [trains, setTrains] = useState<TrainDto[]>([]);
-
-  console.log(trains);
+  if (!user) return;
+  const [recipes, setRecipes] = useState<RecipeDto[]>([]);
+  console.log(recipes);
   const handleLogout = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
+    // localStorage.removeItem("access_token");
+    // localStorage.removeItem("refresh_token");
     router.push("/auth");
   };
 
   useEffect(() => {
-    const FetchTrains = async () => {
+    const FetchRecipes = async () => {
       if (user?.id) {
-        const trains = await getTrainsByUserId(user?.id);
+        const recipes = await getAllRecipes();
 
-        if (trains.length) {
-          setTrains(trains);
+        if (recipes.length) {
+          setRecipes(recipes);
         }
       }
     };
 
-    FetchTrains();
+    FetchRecipes();
   }, [user?.id]);
 
   return (
@@ -40,9 +42,7 @@ function DashboardContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-xl font-bold text-gray-900">
-                Train Scheduler
-              </h1>
+              <h1 className="text-xl font-bold text-gray-900">FlavorAI</h1>
             </div>
             <div className="flex items-center">
               <h1 className="text-xl font-bold text-gray-900">{user?.name}</h1>
@@ -61,7 +61,11 @@ function DashboardContent() {
 
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
-          <TrainList trains={trains} setTrains={setTrains} />
+          <RecipeList
+            recipes={recipes}
+            setRecipes={setRecipes}
+            currentUserId={user?.id}
+          />
         </div>
       </main>
     </div>

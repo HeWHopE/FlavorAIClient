@@ -1,18 +1,18 @@
-import { TrainDto } from "@/models/train";
+import { RecipeDto } from "@/models/recipe";
 import React from "react";
 
-interface DeleteTrainModalProps {
+interface DeleteRecipeModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onDelete: (trainId: number) => void;
-  trainData: TrainDto;
+  onDelete: (recipeId: number) => void;
+  recipeData: RecipeDto;
 }
 
-const DeleteTrainModal: React.FC<DeleteTrainModalProps> = ({
+const DeleteRecipeModal: React.FC<DeleteRecipeModalProps> = ({
   isOpen,
   onClose,
   onDelete,
-  trainData,
+  recipeData,
 }) => {
   return (
     <>
@@ -23,10 +23,10 @@ const DeleteTrainModal: React.FC<DeleteTrainModalProps> = ({
           {/* Modal Content */}
           <div className="fixed inset-0 flex items-center justify-center z-20">
             <div className="bg-white p-6 rounded-md shadow-md w-96 z-10">
-              <h2 className="text-xl font-bold mb-4">Delete Train</h2>
+              <h2 className="text-xl font-bold mb-4">Delete Recipe</h2>
               <p className="mb-6 text-gray-700">
-                Are you sure you want to delete the train{" "}
-                <span className="font-semibold">{trainData.name}</span>? This
+                Are you sure you want to delete the recipe{" "}
+                <span className="font-semibold">{recipeData.name}</span>? This
                 action cannot be undone.
               </p>
               <div className="flex justify-end gap-4">
@@ -37,7 +37,7 @@ const DeleteTrainModal: React.FC<DeleteTrainModalProps> = ({
                   Cancel
                 </button>
                 <button
-                  onClick={() => onDelete(trainData.id)}
+                  onClick={() => onDelete(recipeData.id)}
                   className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                 >
                   Delete
@@ -51,4 +51,4 @@ const DeleteTrainModal: React.FC<DeleteTrainModalProps> = ({
   );
 };
 
-export default DeleteTrainModal;
+export default DeleteRecipeModal;
